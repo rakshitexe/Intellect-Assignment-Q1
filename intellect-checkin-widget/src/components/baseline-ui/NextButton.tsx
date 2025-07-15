@@ -17,7 +17,7 @@ const ContinueButton: React.FC<Props> = ({
       disabled={disabled}
       className={`
         w-full py-2 sm:py-3 px-4
-        text-white text-sm font-medium
+        text-white text-lg font-medium
         rounded-lg
         transition-colors
         ${disabled

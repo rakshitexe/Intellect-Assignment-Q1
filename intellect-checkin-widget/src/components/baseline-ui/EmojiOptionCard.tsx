@@ -16,8 +16,8 @@ const EmojiOptionCard: React.FC<Props> = ({ emoji, isSelected, onSelect }) => (
       flex flex-col items-center justify-center
       rounded-[20px] border transition
       ${isSelected
-        ? 'bg-blue-100 border-blue-500'
-        : 'bg-white border-gray-300 hover:border-gray-400'
+        ? 'bg-[#1c8bf225] border-[#1c8cf2] font-semibold'
+        : 'bg-white border-gray-300 hover:border-gray-400 font-medium'
       }
     `}
   >

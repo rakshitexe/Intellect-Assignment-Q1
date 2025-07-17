@@ -21,8 +21,8 @@ const ContinueButton: React.FC<Props> = ({
         rounded-lg
         transition-colors
         ${disabled
-          ? 'bg-gray-300 cursor-not-allowed'
-          : 'bg-blue-400 hover:bg-blue-500'
+          ? 'bg-[#96a5be] cursor-not-allowed'
+          : 'bg-[#1c8cf2] hover:bg-[#0c7ee9] cursor-pointer'
         }
       `}
     >

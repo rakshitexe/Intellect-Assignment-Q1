@@ -1,67 +1,93 @@
-// src/components/EmojiCheckinWidget.tsx
-
-import React from "react";
+import React, { useState, useEffect } from "react";
 import EmojiContainer from "./baseline-ui/EmojiContainer";
 import EmojiOptionCard from "./baseline-ui/EmojiOptionCard";
 import { emojiCheckinData } from "../data/emojiData";
 import { useSelector, useDispatch } from "react-redux";
 import type { RootState, AppDispatch } from "../redux/store/store";
 import { setEmoji, resetEmoji } from "../redux/slices/checkinSlice";
+import { GreetingStep } from "./baseline-ui/Greeting";
+import CustomizedFormContent from "./CustomizedFormContent";
 
-const EmojiCheckinWidget: React.FC = () => {
+interface EmojiCheckinWidgetProps {
+  onClose: () => void;
+}
+
+const EmojiCheckinWidget: React.FC<EmojiCheckinWidgetProps> = ({ onClose }) => {
   const dispatch = useDispatch<AppDispatch>();
-  const selectedId = useSelector(
-    (state: RootState) => state.checkin.selectedEmojiId
-  );
+  const selectedId = useSelector((state: RootState) => state.checkin.selectedEmojiId);
+
+  const [isVisible, setIsVisible] = useState(false);
+  const [step, setStep] = useState<"greeting" | "select" | "summary">("greeting");
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsVisible(true), 100);
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleSelect = (id: number) => {
     dispatch(setEmoji(id));
   };
 
   const handleContinue = () => {
-    if (selectedId !== null) {
-      const selected = emojiCheckinData.options.find(
-        (e) => e.id === selectedId
-      );
-      alert(`Thanks for checking in! You feel "${selected?.label}".`);
+    if (step === "greeting") {
+      setStep("select");
+    } else if (step === "select" && selectedId !== null) {
+      setStep("summary");
+    } else if (step === "summary") {
       dispatch(resetEmoji());
+      handleClose();
     }
   };
 
   const handleBack = () => {
-    alert("Back button clicked");
+    if (step === "summary") setStep("select");
+    else if (step === "select") setStep("greeting");
   };
 
   const handleClose = () => {
-    alert("Close button clicked");
+    setIsVisible(false);
+    setTimeout(() => onClose(), 500);
   };
 
   return (
-    <EmojiContainer
-      heading="Wellbeing Check-in"
-      onBack={handleBack}
-      onClose={handleClose}
-      onContinue={handleContinue}
-      continueDisabled={selectedId === null}
-      showContinueButton
+    <div
+      className={`transition-opacity duration-500 ease-in-out ${
+        isVisible ? "opacity-100" : "opacity-0 pointer-events-none"
+      }`}
     >
-      <div className="flex flex-col items-center">
-        <p className="text-[17px] font-semibold text-gray-700 text-center leading-normal mb-6">
-          {emojiCheckinData.question}
-        </p>
+      <EmojiContainer
+        heading="Wellbeing Check-in"
+        onBack={step === "greeting" ? undefined : handleBack}
+        onClose={handleClose}
+        onContinue={handleContinue}
+        continueDisabled={step === "select" && selectedId === null}
+        continueLabel={step === "summary" ? "Finish" : "Continue"}
+        showContinueButton
+      >
+      {step === "greeting" && <GreetingStep />}
 
-        <div className="flex justify-center gap-[6px] flex-wrap mt-6">
-          {emojiCheckinData.options.map((emoji) => (
-            <EmojiOptionCard
-              key={emoji.id}
-              emoji={emoji}
-              isSelected={selectedId === emoji.id}
-              onSelect={() => handleSelect(emoji.id)}
-            />
-          ))}
-        </div>
-      </div>
-    </EmojiContainer>
+        {step === "select" && (
+          <div className="flex flex-col items-center">
+            <p className="text-[17px] font-semibold text-gray-700 text-center leading-normal mb-6">
+              {emojiCheckinData.question}
+            </p>
+
+            <div className="flex justify-center gap-[6px] flex-wrap mt-6">
+              {emojiCheckinData.options.map((emoji) => (
+                <EmojiOptionCard
+                  key={emoji.id}
+                  emoji={emoji}
+                  isSelected={selectedId === emoji.id}
+                  onSelect={() => handleSelect(emoji.id)}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {step === "summary" && <CustomizedFormContent />}
+      </EmojiContainer>
+    </div>
   );
 };
 

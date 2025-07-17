@@ -43,7 +43,7 @@ export const GreetingStep = () => {
       </motion.p>
 
       <motion.p
-        className="text-base text-blue-600"
+        className="text-base text-[#1c8cf2]"
         variants={{
           hidden: { opacity: 0, y: 40 },
           visible: {

@@ -1,9 +1,9 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import EmojiCheckinWidget from '../components/EmojiCheckinWidget';
 import { Provider } from 'react-redux';
 import { store } from '../redux/store/store';
-import { emojiCheckinData } from '../data/emojiData';
+// import { emojiCheckinData } from '../data/emojiData';
 // src/setupTests.ts or wherever your setup file is
 
 

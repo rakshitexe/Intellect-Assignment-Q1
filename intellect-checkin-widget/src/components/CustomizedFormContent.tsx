@@ -3,11 +3,21 @@ import { useSelector } from "react-redux";
 import type { RootState } from "../redux/store/store";
 import { emojiCheckinData } from "../data/emojiData";
 
+/**
+ * CustomizedFormContent
+ * Displays a summary of the selected emoji (mood)
+ * Uses Redux to access the globally selected emoji ID
+ */
 const CustomizedFormContent: React.FC = () => {
+  // Access the selected emoji ID from Redux store
   const selectedId = useSelector((state: RootState) => state.checkin.selectedEmojiId);
+
+  // Find the corresponding emoji object from data based on the selected ID
   const selectedEmoji = emojiCheckinData.options.find((e) => e.id === selectedId);
 
+  // If no emoji is selected, render nothing
   if (!selectedEmoji) return null;
+
 
   return (
     <div className="text-center">

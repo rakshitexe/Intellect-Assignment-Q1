@@ -8,6 +8,7 @@ import { setEmoji, resetEmoji } from "../redux/slices/checkinSlice";
 import { GreetingStep } from "./baseline-ui/Greeting";
 import CustomizedFormContent from "./CustomizedFormContent";
 
+// Props to allow parent component to close the widget
 interface EmojiCheckinWidgetProps {
   onClose: () => void;
 }
@@ -16,18 +17,22 @@ const EmojiCheckinWidget: React.FC<EmojiCheckinWidgetProps> = ({ onClose }) => {
   const dispatch = useDispatch<AppDispatch>();
   const selectedId = useSelector((state: RootState) => state.checkin.selectedEmojiId);
 
+  // Local component state
   const [isVisible, setIsVisible] = useState(false);
   const [step, setStep] = useState<"greeting" | "select" | "summary">("greeting");
 
+  // Add fade-in animation on mount
   useEffect(() => {
     const timer = setTimeout(() => setIsVisible(true), 100);
     return () => clearTimeout(timer);
   }, []);
 
+  // Handle emoji selection
   const handleSelect = (id: number) => {
     dispatch(setEmoji(id));
   };
 
+  // Move forward in steps
   const handleContinue = () => {
     if (step === "greeting") {
       setStep("select");
@@ -39,11 +44,13 @@ const EmojiCheckinWidget: React.FC<EmojiCheckinWidgetProps> = ({ onClose }) => {
     }
   };
 
+  // Move backward in steps
   const handleBack = () => {
     if (step === "summary") setStep("select");
     else if (step === "select") setStep("greeting");
   };
 
+  // Close the widget with fade-out effect
   const handleClose = () => {
     setIsVisible(false);
     setTimeout(() => onClose(), 500);
@@ -51,8 +58,7 @@ const EmojiCheckinWidget: React.FC<EmojiCheckinWidgetProps> = ({ onClose }) => {
 
   return (
     <div
-      className={`transition-opacity duration-500 ease-in-out ${isVisible ? "opacity-100" : "opacity-0 pointer-events-none"
-        }`}
+      className={`transition-opacity duration-500 ease-in-out ${isVisible ? "opacity-100" : "opacity-0 pointer-events-none"}`}
     >
       <EmojiContainer
         heading="Wellbeing Check-in"

@@ -51,9 +51,8 @@ const EmojiCheckinWidget: React.FC<EmojiCheckinWidgetProps> = ({ onClose }) => {
 
   return (
     <div
-      className={`transition-opacity duration-500 ease-in-out ${
-        isVisible ? "opacity-100" : "opacity-0 pointer-events-none"
-      }`}
+      className={`transition-opacity duration-500 ease-in-out ${isVisible ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
     >
       <EmojiContainer
         heading="Wellbeing Check-in"
@@ -64,7 +63,7 @@ const EmojiCheckinWidget: React.FC<EmojiCheckinWidgetProps> = ({ onClose }) => {
         continueLabel={step === "summary" ? "Finish" : "Continue"}
         showContinueButton
       >
-      {step === "greeting" && <GreetingStep />}
+        {step === "greeting" && <GreetingStep />}
 
         {step === "select" && (
           <div className="flex flex-col items-center">
@@ -75,6 +74,7 @@ const EmojiCheckinWidget: React.FC<EmojiCheckinWidgetProps> = ({ onClose }) => {
             <div className="flex justify-center gap-[6px] flex-wrap mt-6">
               {emojiCheckinData.options.map((emoji) => (
                 <EmojiOptionCard
+                  data-testid={`emoji-option-${emoji.id}`}
                   key={emoji.id}
                   emoji={emoji}
                   isSelected={selectedId === emoji.id}

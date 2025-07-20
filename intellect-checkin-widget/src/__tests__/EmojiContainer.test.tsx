@@ -28,7 +28,7 @@ describe('EmojiContainer', () => {
     )
 
     fireEvent.click(screen.getByAltText('Back'))
-    fireEvent.click(screen.getByText('✕'))
+    fireEvent.click(screen.getByAltText('Close'))
 
     expect(backHandler).toHaveBeenCalled()
     expect(closeHandler).toHaveBeenCalled()

@@ -28,6 +28,7 @@ const CustomizedFormContent: React.FC = () => {
       <div className="mt-4 text-sm text-gray-500">
         <p>This is a demonstration of dynamic rendering from Redux state.</p>
         <p>Your selected mood emoji and label come from the global state!</p>
+        <p>We can use this global state to scale up the widget by showing mood based content.</p>
       </div>
     </div>
   );

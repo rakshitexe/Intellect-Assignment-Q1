@@ -1,6 +1,7 @@
 import React from "react";
 import ContinueButton from "./NextButton";
 import BackIcon from "../../assets/icons/LeftArrow.svg"
+import CloseIcon from "../../assets/icons/CloseIcon.svg"
 interface EmojiContainerProps {
   heading: string;
   onBack?: () => void;
@@ -44,7 +45,7 @@ const EmojiContainer: React.FC<EmojiContainerProps> = ({
       {onBack && (
         <button
           onClick={onBack}
-          className="absolute top-2 left-4 text-gray-400 hover:text-gray-600 text-sm"
+          className="absolute top-2 left-2 text-gray-400 hover:text-gray-600 text-sm"
         >
            <img src={BackIcon} alt="Back" className="w-full h-full" />
         </button>
@@ -52,9 +53,9 @@ const EmojiContainer: React.FC<EmojiContainerProps> = ({
       {onClose && (
         <button
           onClick={onClose}
-          className="absolute top-2 right-4 text-gray-400 hover:text-gray-600 text-sm"
+          className="absolute top-2 right-2 text-gray-400 hover:text-gray-600 text-sm"
         >
-          ✕
+          <img src={CloseIcon} alt="Close" className="w-full h-full" />
         </button>
       )}
 

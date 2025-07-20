@@ -21,6 +21,8 @@ const ContinueButton: React.FC<Props> = ({
       // Disable the button if `disabled` is true
       disabled={disabled}
 
+      data-testid="continue-btn"
+
       // Apply styling based on whether the button is disabled
       className={`
         w-full py-2 sm:py-3 px-4                  

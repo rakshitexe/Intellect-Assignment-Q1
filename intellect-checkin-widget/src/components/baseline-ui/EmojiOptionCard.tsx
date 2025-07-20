@@ -11,9 +11,10 @@ interface Props {
 }
 
 // A card component to display an individual emoji option
-const EmojiOptionCard: React.FC<Props> = ({ emoji, isSelected, onSelect }) => (
+const EmojiOptionCard: React.FC<Props> = ({ emoji, isSelected, onSelect, ...rest }) => (
   <button
     onClick={onSelect} // Trigger selection when clicked
+   {...rest}
     className={`
       w-[90px] h-[130px] sm:w-[100px] sm:h-[130px]
       flex flex-col items-center justify-center

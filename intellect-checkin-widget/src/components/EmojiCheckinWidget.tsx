@@ -15,11 +15,15 @@ interface EmojiCheckinWidgetProps {
 
 const EmojiCheckinWidget: React.FC<EmojiCheckinWidgetProps> = ({ onClose }) => {
   const dispatch = useDispatch<AppDispatch>();
-  const selectedId = useSelector((state: RootState) => state.checkin.selectedEmojiId);
+  const selectedId = useSelector(
+    (state: RootState) => state.checkin.selectedEmojiId
+  );
 
   // Local component state
   const [isVisible, setIsVisible] = useState(false);
-  const [step, setStep] = useState<"greeting" | "select" | "summary">("greeting");
+  const [step, setStep] = useState<"greeting" | "select" | "summary">(
+    "greeting"
+  );
 
   // Add fade-in animation on mount
   useEffect(() => {
@@ -29,9 +33,12 @@ const EmojiCheckinWidget: React.FC<EmojiCheckinWidgetProps> = ({ onClose }) => {
 
   // Handle emoji selection
   const handleSelect = (id: number) => {
-    dispatch(setEmoji(id));
+    if (selectedId === id) {
+      dispatch(resetEmoji()); // Deselect if same emoji is clicked
+    } else {
+      dispatch(setEmoji(id)); // Select new emoji
+    }
   };
-
   // Move forward in steps
   const handleContinue = () => {
     if (step === "greeting") {
@@ -52,13 +59,16 @@ const EmojiCheckinWidget: React.FC<EmojiCheckinWidgetProps> = ({ onClose }) => {
 
   // Close the widget with fade-out effect
   const handleClose = () => {
+    dispatch(resetEmoji());
     setIsVisible(false);
     setTimeout(() => onClose(), 500);
   };
 
   return (
     <div
-      className={`transition-opacity duration-500 ease-in-out ${isVisible ? "opacity-100" : "opacity-0 pointer-events-none"}`}
+      className={`transition-opacity duration-500 ease-in-out ${
+        isVisible ? "opacity-100" : "opacity-0 pointer-events-none"
+      }`}
     >
       <EmojiContainer
         heading="Wellbeing Check-in"
